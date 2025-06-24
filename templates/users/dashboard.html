@@ -1,0 +1,11 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Bienvenido {{request.user.first_name}}</h1>
+    <p>Este es tu panel de control.</p>
+
+    <a href="{% url 'logout_user' %}">Cerrar sesión</a>
+{% endblock %}

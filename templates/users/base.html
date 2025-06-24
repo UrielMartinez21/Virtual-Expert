@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>V.E - {% block title %}{% endblock  %}</title>
+        <link rel="stylesheet" href="{% static 'css/users/base.css' %}">
+    </head>
+
+    <body>
+        {% if request.user.is_authenticated %}
+            <div class="menu">
+                <p>menu</p>
+            </div>
+        {% endif %}
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="footer">
+            <p>© {% now "Y" %} V.E. All rights reserved.</p>
+        </div>
+
+        {% block js %}{% endblock %}
+    </body>
+
+</html>
