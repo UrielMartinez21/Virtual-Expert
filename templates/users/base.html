@@ -10,23 +10,27 @@
         <link rel="stylesheet" href="{% static 'css/users/base.css' %}">
     </head>
 
-    <body>
-        {% if request.user.is_authenticated %}
-            <div class="menu">
-                <p>Dashboard</p>
-                <p>My virtual experts</p>
-                <p>Create virtual expert</p>
+    <body class="{% if request.user.is_authenticated %}with-sidebar{% else %}no-sidebar{% endif %}">
+        <div class="page">
+            {% if request.user.is_authenticated %}
+                <div class="menu">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <a href="{% url 'virtual_experts' %}">My virtual experts</a>
+                    <a href="{% url 'create_virtual_expert' %}">Create virtual expert</a>
 
-                <a href="{% url 'logout_user' %}">Cerrar sesión</a>
+                    <div class="logout-link">
+                        <a href="{% url 'logout_user' %}">Logout</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="content">
+                {% block content %}{% endblock %}
             </div>
-        {% endif %}
 
-        <div class="content">
-            {% block content %}{% endblock %}
-        </div>
-
-        <div class="footer">
-            <p>© {% now "Y" %} V.E. All rights reserved.</p>
+            <div class="footer">
+                <p>© {% now "Y" %} V.E. All rights reserved.</p>
+            </div>
         </div>
 
         {% block js %}{% endblock %}

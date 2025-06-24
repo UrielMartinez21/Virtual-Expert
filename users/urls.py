@@ -15,5 +15,7 @@ urlpatterns = [
 
     # To see the dashboard of the user
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('virtual_experts/', views.virtual_experts, name='virtual_experts'),
+    path('create_virtual_expert/', views.create_virtual_expert, name='create_virtual_expert'),
 
 ]
