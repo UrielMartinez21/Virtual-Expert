@@ -7,11 +7,22 @@
         <h2>Create a new user</h2>
         <form id="register-form" action="/users/create_user/">
             {% csrf_token %}
+            <label for="username">Username</label>
             <input name="username" placeholder="Username"/>
+
+            <label for="first_name">First Name</label>
             <input name="first_name" placeholder="First Name"/>
+
+            <label for="last_name">Last Name</label>
             <input name="last_name" placeholder="Last Name"/>
+
+            <label for="email">Email</label>
             <input name="email" placeholder="Email" type="email"/>
+
+            <label for="password">Password</label>
             <input name="password" placeholder="Password" type="password"/>
+
+            <label for="confirm_password">Confirm Password</label>
             <input name="confirm_password" placeholder="Confirm password" type="password"/>
 
             <button type="submit">Register</button>

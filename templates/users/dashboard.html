@@ -4,8 +4,6 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1>Bienvenido {{request.user.first_name}}</h1>
-    <p>Este es tu panel de control.</p>
-
-    <a href="{% url 'logout_user' %}">Cerrar sesión</a>
+    <h1>Bienvenido {{request.user.first_name}} {{request.user.last_name}}</h1>
+    <p>This is your control panel</p>
 {% endblock %}

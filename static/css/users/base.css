@@ -67,7 +67,32 @@ a:hover {
 }
 
 .menu {
-    background: #333;
+    background-color: #1e2a38;
     color: white;
-    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    font-size: 16px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.menu p,
+.menu a {
+    margin: 0;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.menu p:hover,
+.menu a:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}
+
+.menu a {
+    font-weight: 500;
 }

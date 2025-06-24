@@ -5,12 +5,18 @@
 
 {% block content %}
     <h2>Login</h2>
+
     <form id="login-form" action="/users/send_data_to_login/">
         {% csrf_token %}
+        <label for="username">Username</label>
         <input name="username" placeholder="Username" required/>
+
+        <label for="password">Password</label>
         <input name="password" placeholder="Password" type="password" required/>
+
         <button type="submit">Login</button>
     </form>
+
     <p>If you don't an account, <a href="{% url 'register_user' %}">register here.</a></p>
 {% endblock %}
 
