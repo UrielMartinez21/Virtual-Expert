@@ -112,6 +112,17 @@ select:focus {
     background-color: #FFFFFF;
 }
 
+form a {
+    color: #EAC645;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+form a:hover {
+    color: #D4AF37;
+}
+
 input::placeholder {
     color: #9CA3AF;
 }
