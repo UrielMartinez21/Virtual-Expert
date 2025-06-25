@@ -9,9 +9,15 @@
         <div class="virtual-expert">
             <h4>{{ ve.name }}</h4>
             <div class="virtual-expert-actions">
-                <a href="">Edit</a>
-                <a href="">Train</a>
-                <a href="">Chat</a>
+                <a href="">
+                    <img src="{% static 'icons/experts/edit.png' %}" alt="Edit" class="icon" />
+                </a>
+                <a href="">
+                    <img src="{% static 'icons/experts/train.png' %}" alt="Train" class="icon" />
+                </a>
+                <a href="">
+                    <img src="{% static 'icons/experts/chat.png' %}" alt="Chat" class="icon" />
+                </a>
             </div>
         </div>
     {% endfor %}

@@ -10,7 +10,9 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% block css %}{% endblock %}
 
+        <!-- Sweet alert -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
 
     <body class="{% if request.user.is_authenticated %}with-sidebar{% else %}no-sidebar{% endif %}">
