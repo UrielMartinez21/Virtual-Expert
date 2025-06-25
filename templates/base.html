@@ -16,9 +16,9 @@
         <div class="page">
             {% if request.user.is_authenticated %}
                 <div class="menu">
-                    <a href="{% url 'dashboard' %}">Dashboard</a>
-                    <a href="{% url 'my_virtual_experts' %}">My virtual experts</a>
-                    <a href="{% url 'create_virtual_expert' %}">Create virtual expert</a>
+                    <a href="{% url 'dashboard' %}" class="{% if request.path == '/users/dashboard/' %}active{% endif %}">Dashboard</a>
+                    <a href="{% url 'my_virtual_experts' %}" class="{% if request.path == '/experts/' %}active{% endif %}">My virtual experts</a>
+                    <a href="{% url 'create_virtual_expert' %}" class="{% if request.path == '/experts/create_virtual_expert/' %}active{% endif %}">Create virtual expert</a>
 
                     <div class="logout-link">
                         <a href="{% url 'logout_user' %}">Logout</a>
