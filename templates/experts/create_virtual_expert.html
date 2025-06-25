@@ -4,9 +4,7 @@
 {% block title %}Create virtual expert{% endblock %}
 
 {% block content %}
-    <h1>Create</h1>
-    <p>Here you can create a virtual expert</p>
-    <form class="form-create-expert" method="POST">
+    <form class="forms_with_login" method="POST" action="/experts/create_virtual_expert/">
         {% csrf_token %}
         <h2>Create Virtual Expert</h2>
 

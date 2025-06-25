@@ -3,12 +3,8 @@
 
 {% block title %}Register{% endblock %}
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'css/users/register_user.css' %}">
-{% endblock %}
-
 {% block content %}
-    <form id="register-form" class="register-form" action="/users/create_user/">
+    <form id="register-form" class="forms_without_login" action="/users/create_user/">
         <h2>Create a new user</h2>
 
         {% csrf_token %}
