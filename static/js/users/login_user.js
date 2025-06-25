@@ -30,8 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
         if (response.ok) {
-            alert("Ok: " + result.message);                 // Show success message
-            window.location.href = "/users/dashboard/";     // Redirect to dashboard on success
+            Swal.fire({
+                title: 'Login Successful',
+                text: 'Welcome back!',
+                icon: 'success',
+                confirmButtonText: 'Continue'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/users/dashboard/";
+                }
+            });
         } else {
             alert("Error: " + (result.message));
         }
