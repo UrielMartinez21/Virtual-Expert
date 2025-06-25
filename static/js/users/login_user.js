@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 confirmButtonText: 'Continue'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/users/dashboard/";
+                    window.location.href = "/";
                 }
             });
         } else {
