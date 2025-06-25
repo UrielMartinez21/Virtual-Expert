@@ -23,7 +23,8 @@ body.no-sidebar .content {
 }
 
 .content {
-    flex: 1; /* Pushes the footer down */
+    flex: 1;
+    /* Pushes the footer down */
     padding: 2.5rem;
 }
 
@@ -287,4 +288,103 @@ button:hover {
     height: 2.2rem;
     margin-right: 0.5rem;
     vertical-align: middle;
+}
+
+/* ==========================| RESPONSIVE STYLES |========================== */
+@media (max-width: 1024px) {
+    body.with-sidebar .content {
+        margin-left: 0;
+    }
+
+    .menu {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 1rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .logout-link {
+        margin: 0;
+        border-top: none;
+        padding-top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 1.25rem;
+    }
+
+    .forms_with_login,
+    .forms_without_login {
+        max-width: 100%;
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .forms_with_login h2,
+    .forms_without_login h2 {
+        font-size: 1.5rem;
+    }
+
+    .forms_with_login input,
+    .forms_without_login input {
+        font-size: 0.95rem;
+    }
+
+    .forms_with_login button,
+    .forms_without_login button {
+        font-size: 0.95rem;
+        padding: 0.6rem;
+    }
+
+    .virtual-expert {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .virtual-expert-actions {
+        width: 100%;
+        justify-content: space-around;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .virtual-expert h4 {
+        font-size: 1.1rem;
+    }
+
+    .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .menu a {
+        font-size: 0.9rem;
+    }
+
+    .forms_with_login h2,
+    .forms_without_login h2 {
+        font-size: 1.25rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
 }
