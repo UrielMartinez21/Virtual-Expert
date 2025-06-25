@@ -4,6 +4,15 @@
 {% block title %}Virtual experts{% endblock %}
 
 {% block content %}
-    <h1>My virtual experts</h1>
-    <p>Here you can see your virtual experts.</p>
+    <h1 class="title">My virtual experts</h1>
+    {% for ve in experts %}
+        <div class="virtual-expert">
+            <h4>{{ ve.name }}</h4>
+            <div class="virtual-expert-actions">
+                <a href="">Edit</a>
+                <a href="">Train</a>
+                <a href="">Chat</a>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

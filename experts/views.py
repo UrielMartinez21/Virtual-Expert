@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Expert
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse
 
 
 @login_required
@@ -12,3 +14,20 @@ def my_virtual_experts(request):
 @login_required
 def create_virtual_expert(request):
     return render(request, 'experts/create_virtual_expert.html')
+
+
+@login_required
+@require_http_methods(["POST"])
+def send_data_to_expert(request):
+    try:
+        name = request.POST.get('name')
+        description = request.POST.get('description', '')
+
+        Expert.objects.create(
+            profile=request.user.profile,
+            name=name,
+            description=description
+        )
+        return JsonResponse({'message': 'Virtual expert created successfully'}, status=201)
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=500)
