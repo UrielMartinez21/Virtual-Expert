@@ -19,5 +19,5 @@ class Profile(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Profile of {self.user.username}"
+        return self.user.username
 

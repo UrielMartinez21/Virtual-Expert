@@ -3,7 +3,7 @@ from .models import Expert
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def my_virtual_experts(request):
@@ -26,8 +26,21 @@ def send_data_to_expert(request):
         Expert.objects.create(
             profile=request.user.profile,
             name=name,
-            description=description
+            description=description,
+            slug=name.replace(' ', '-').lower()
         )
         return JsonResponse({'message': 'Virtual expert created successfully'}, status=201)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
+
+
+@csrf_exempt
+@login_required
+@require_http_methods(["DELETE"])
+def delete_expert(request, slug_expert):
+    try:
+        expert = Expert.objects.get(slug=slug_expert, profile__user=request.user)
+        expert.delete()
+        return JsonResponse({'message': 'Deleted successfully'}, status=200)
+    except Expert.DoesNotExist:
+        return JsonResponse({'message': 'Expert not found'}, status=404)

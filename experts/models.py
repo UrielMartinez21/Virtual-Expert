@@ -5,9 +5,15 @@ from users.models import Profile
 class Expert(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='experts')
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, default='')
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Expert'
+        verbose_name_plural = 'Experts'
 
     def __str__(self):
         return f"{self.name} ({self.profile.user.username})"
