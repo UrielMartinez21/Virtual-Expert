@@ -6,4 +6,16 @@
 {% block content %}
     <h1>Create</h1>
     <p>Here you can create a virtual expert</p>
+    <form class="form-create-expert" method="POST">
+        {% csrf_token %}
+        <h2>Create Virtual Expert</h2>
+
+        <label for="name">Name</label>
+        <input name="name" placeholder="Expert name" required />
+
+        <label for="description">Description</label>
+        <input name="description" placeholder="Expert purpose or focus" />
+
+        <button type="submit">Create</button>
+    </form>
 {% endblock %}

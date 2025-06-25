@@ -14,5 +14,5 @@ urlpatterns = [
     path('logout_user/', views.logout_user, name='logout_user'),
 
     # To see the dashboard of the user
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('', views.dashboard, name='dashboard'),
 ]
