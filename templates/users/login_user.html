@@ -1,10 +1,14 @@
-{% extends 'users/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Login{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/users/login_user.css' %}">
+{% endblock %}
+
 {% block content %}
-    <form id="login-form" action="/users/send_data_to_login/">
+    <form id="login-form" class="login-form" action="/users/send_data_to_login/">
         <h2>Login</h2>
 
         {% csrf_token %}

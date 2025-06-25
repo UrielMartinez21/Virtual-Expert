@@ -80,13 +80,3 @@ def logout_user(request):
 @login_required
 def dashboard(request):
     return render(request, 'users/dashboard.html')
-
-
-@login_required
-def virtual_experts(request):
-    return render(request, 'users/virtual_experts.html')
-
-
-@login_required
-def create_virtual_expert(request):
-    return render(request, 'users/create_virtual_expert.html')

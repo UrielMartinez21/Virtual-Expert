@@ -7,15 +7,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>VE - {% block title %}{% endblock  %}</title>
-        <link rel="stylesheet" href="{% static 'css/users/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% block css %}{% endblock %}
     </head>
 
     <body class="{% if request.user.is_authenticated %}with-sidebar{% else %}no-sidebar{% endif %}">
+
         <div class="page">
             {% if request.user.is_authenticated %}
                 <div class="menu">
                     <a href="{% url 'dashboard' %}">Dashboard</a>
-                    <a href="{% url 'virtual_experts' %}">My virtual experts</a>
+                    <a href="{% url 'my_virtual_experts' %}">My virtual experts</a>
                     <a href="{% url 'create_virtual_expert' %}">Create virtual expert</a>
 
                     <div class="logout-link">

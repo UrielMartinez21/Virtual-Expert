@@ -1,0 +1,76 @@
+/* === REGISTER FORM === */
+.register-form {
+    background-color: #1E1E2F;
+    color: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    max-width: 28rem;
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.register-form h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.register-form label {
+    font-size: 0.95rem;
+    color: #CCCCCC;
+}
+
+.register-form input {
+    background-color: #2A2A3D;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.register-form input::placeholder {
+    color: #CCCCCC;
+}
+
+.register-form input:focus {
+    border-color: #EAC645;
+}
+
+.register-form button {
+    background-color: #EAC645;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-form button:hover {
+    background-color: #d4af37;
+}
+
+.register-form p {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #CCCCCC;
+}
+
+.register-form a {
+    color: #EAC645;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.register-form a:hover {
+    text-decoration: underline;
+}
