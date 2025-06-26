@@ -1,4 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("create-expert-form");
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const name = formData.get("name").trim();
+        const description = formData.get("description").trim();
+
+        if (!name || !description) {
+            Swal.fire({ icon: 'error', title: 'Please fill all fields' });
+            return;
+        }
+
+        const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Expert Created',
+                confirmButtonText: 'OK'
+            }).then(() => window.location.reload());
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message || 'Failed to create expert'
+            });
+        }
+    });
+
     const deleteButtons = document.querySelectorAll(".delete-expert");
 
     deleteButtons.forEach(button => {

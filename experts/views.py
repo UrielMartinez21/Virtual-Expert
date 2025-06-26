@@ -18,21 +18,17 @@ from experts import basic_answer_from_context
 # model = SentenceTransformer('all-MiniLM-L6-v2')
 
 
+# ===========================| CRUD |===========================
 @login_required
-def my_virtual_experts(request):
+@require_http_methods(["GET"])
+def manage_virtual_experts(request):
     experts = Expert.objects.filter(profile__user=request.user)
-    return render(request, 'experts/my_virtual_experts.html', {'experts': experts})
-
-
-# ===========================| Create virtual experts |===========================
-@login_required
-def create_virtual_expert(request):
-    return render(request, 'experts/create_virtual_expert.html')
+    return render(request, 'experts/manage_virtual_experts.html', {'experts': experts})
 
 
 @login_required
 @require_http_methods(["POST"])
-def send_data_to_expert(request):
+def create_expert(request):
     try:
         name = request.POST.get('name')
         description = request.POST.get('description', '')
@@ -46,6 +42,27 @@ def send_data_to_expert(request):
         return JsonResponse({'message': 'Virtual expert created successfully'}, status=201)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
+
+
+@csrf_exempt
+@login_required
+@require_http_methods(["DELETE"])
+def delete_expert(request, slug_expert):
+    try:
+        expert = Expert.objects.get(slug=slug_expert, profile__user=request.user)
+        expert.delete()
+        base_path = os.path.join(settings.MEDIA_ROOT, "indices")
+        paths = [
+            os.path.join(base_path, f"{slug_expert}.index"),
+            os.path.join(base_path, f"{slug_expert}_chunks.json"),
+            os.path.join(settings.MEDIA_ROOT, f"documents/{slug_expert}.pdf"),  # optional
+        ]
+        for path in paths:
+            if os.path.exists(path):
+                os.remove(path)
+        return JsonResponse({'message': 'Deleted successfully'}, status=200)
+    except Expert.DoesNotExist:
+        return JsonResponse({'message': 'Expert not found'}, status=404)
 
 
 # ===========================| Train Virtual Expert |===========================
@@ -109,28 +126,6 @@ def send_data_to_train(request):
         return JsonResponse({'message': 'Virtual expert trained successfully'}, status=201)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
-
-
-# ===========================| CRUD |===========================
-@csrf_exempt
-@login_required
-@require_http_methods(["DELETE"])
-def delete_expert(request, slug_expert):
-    try:
-        expert = Expert.objects.get(slug=slug_expert, profile__user=request.user)
-        expert.delete()
-        base_path = os.path.join(settings.MEDIA_ROOT, "indices")
-        paths = [
-            os.path.join(base_path, f"{slug_expert}.index"),
-            os.path.join(base_path, f"{slug_expert}_chunks.json"),
-            os.path.join(settings.MEDIA_ROOT, f"documents/{slug_expert}.pdf"),  # optional
-        ]
-        for path in paths:
-            if os.path.exists(path):
-                os.remove(path)
-        return JsonResponse({'message': 'Deleted successfully'}, status=200)
-    except Expert.DoesNotExist:
-        return JsonResponse({'message': 'Expert not found'}, status=404)
 
 
 # ===========================| CRUD |===========================

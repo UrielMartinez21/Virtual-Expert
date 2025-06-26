@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Virtual experts{% endblock %}
+
+{% block content %}
+    <h1 class="title">My virtual experts</h1>
+
+    <!-- Button to create expert -->
+    <button class="btn btn-warning mb-4" data-bs-toggle="modal" data-bs-target="#createExpertModal">
+        + New Expert
+    </button>
+    <!-- Button to create expert -->
+
+    <!-- To create a new expert -->
+    <div class="modal fade" id="createExpertModal" tabindex="-1" aria-labelledby="createExpertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createExpertModalLabel">Create Virtual Expert</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="create-expert-form" action="{% url 'create_expert' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" name="description">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- To create a new expert -->
+
+    <!-- List of experts -->
+    {% for ve in experts %}
+        <div class="virtual-expert">
+            <div class="virtual-expert-info">
+                <h4>{{ ve.name }}</h4>
+                <p class="description">{{ ve.description }}</p>
+            </div>
+            <div class="virtual-expert-actions">
+                <a href="">
+                    <img src="{% static 'icons/experts/edit.png' %}" alt="Edit" class="icon" />
+                </a>
+                <a href="" class="delete-expert" data-slug="{{ ve.slug }}">
+                    <img src="{% static 'icons/experts/delete.png' %}" alt="Delete" class="icon" />
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+    <!-- List of experts -->
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/experts/manage_virtual_experts.js' %}"></script>
+{% endblock %}
