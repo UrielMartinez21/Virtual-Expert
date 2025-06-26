@@ -61,7 +61,9 @@ def send_data_to_train(request):
             return JsonResponse({'message': 'No file provided'}, status=400)
 
         # Save file
-        file_path = default_storage.save(f"documents/{file.name}", file)
+        # file_path = default_storage.save(f"documents/{file.name}", file)
+        extension = os.path.splitext(file.name)[1]
+        file_path = default_storage.save(f"documents/{slug}{extension}", file)
 
         # === Step 1: Extract text (PDF only for now)
         full_path = os.path.join(settings.MEDIA_ROOT, file_path)
@@ -101,6 +103,15 @@ def delete_expert(request, slug_expert):
     try:
         expert = Expert.objects.get(slug=slug_expert, profile__user=request.user)
         expert.delete()
+        base_path = os.path.join(settings.MEDIA_ROOT, "indices")
+        paths = [
+            os.path.join(base_path, f"{slug_expert}.index"),
+            os.path.join(base_path, f"{slug_expert}_chunks.json"),
+            os.path.join(settings.MEDIA_ROOT, f"documents/{slug_expert}.pdf"),  # optional
+        ]
+        for path in paths:
+            if os.path.exists(path):
+                os.remove(path)
         return JsonResponse({'message': 'Deleted successfully'}, status=200)
     except Expert.DoesNotExist:
         return JsonResponse({'message': 'Expert not found'}, status=404)
