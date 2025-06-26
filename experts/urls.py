@@ -8,6 +8,7 @@ urlpatterns = [
 
     # to train model
     path('train/<slug:slug>/', views.train_virtual_expert, name='train_virtual_expert'),
+    path('send_data_to_train/', views.send_data_to_train, name='send_data_to_train'),
+
     path('delete/<slug:slug_expert>/', views.delete_expert, name='delete_expert'),
-    # path('train_model/', views.train_model, name='train_model'),
 ]

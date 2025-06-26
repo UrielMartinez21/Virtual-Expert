@@ -4,13 +4,18 @@
 {% block title %}Train Expert{% endblock %}
 
 {% block content %}
-    <form method="POST" enctype="multipart/form-data" class="forms_with_login">
+    <form id="train-form" enctype="multipart/form-data" class="forms_with_login" action="/experts/send_data_to_train/">
         {% csrf_token %}
         <h2>Upload Training Document for {{ expert.name }}</h2>
 
         <label for="document">Select file (PDF, DOCX, etc.)</label>
-        <input type="file" name="document" required />
+        <input type="file" name="document" />
+        <input type="hidden" name="slug" value="{{ expert.slug }}" />
 
         <button type="submit">Upload & Train</button>
     </form>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/experts/train_virtual_expert.js' %}"></script>
 {% endblock %}
