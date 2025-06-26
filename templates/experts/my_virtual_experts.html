@@ -15,7 +15,7 @@
                 <a href="{% url 'train_virtual_expert' ve.slug %}">
                     <img src="{% static 'icons/experts/train.png' %}" alt="Train" class="icon" />
                 </a>
-                <a href="">
+                <a href="{% url 'chat_virtual_expert' ve.slug %}">
                     <img src="{% static 'icons/experts/chat.png' %}" alt="Chat" class="icon" />
                 </a>
                 <a href="" class="delete-expert" data-slug="{{ ve.slug }}">

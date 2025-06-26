@@ -13,8 +13,10 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from django.core.files.storage import default_storage
+from experts import basic_answer_from_context
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
+
 
 @login_required
 def my_virtual_experts(request):
@@ -129,3 +131,43 @@ def delete_expert(request, slug_expert):
         return JsonResponse({'message': 'Deleted successfully'}, status=200)
     except Expert.DoesNotExist:
         return JsonResponse({'message': 'Expert not found'}, status=404)
+
+
+# ===========================| CRUD |===========================
+@login_required
+def chat_virtual_expert(request, slug):
+    expert = get_object_or_404(Expert, slug=slug, profile=request.user.profile)
+    answer = None
+    question = None
+
+    if request.method == "POST":
+        question = request.POST.get("question")
+        if not question:
+            return render(request, "experts/chat_virtual_expert.html", {"expert": expert, "error": "Question required"})
+
+        # Load index and chunks
+        index_path = os.path.join(settings.MEDIA_ROOT, f"indices/{slug}.index")
+        chunks_path = os.path.join(settings.MEDIA_ROOT, f"indices/{slug}_chunks.json")
+
+        if not os.path.exists(index_path) or not os.path.exists(chunks_path):
+            return render(request, "experts/chat_virtual_expert.html", {"expert": expert, "error": "No data available for this expert."})
+
+        index = faiss.read_index(index_path)
+        with open(chunks_path, "r", encoding="utf-8") as f:
+            chunks = json.load(f)
+
+        # Embed the question
+        question_vector = model.encode([question])
+        D, I = index.search(np.array(question_vector), k=5)  # top 5 chunks
+        context = "\n".join([chunks[i] for i in I[0]])
+
+        # Compose prompt (simple for now)
+        prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
+        answer = basic_answer_from_context(prompt)
+        print(f"Question: {question}\nAnswer: {answer}")
+
+    return render(request, "experts/chat_virtual_expert.html", {
+        "expert": expert,
+        "question": question,
+        "answer": answer
+    })

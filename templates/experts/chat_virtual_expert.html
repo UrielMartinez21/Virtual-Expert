@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Chat with {{ expert.name }}{% endblock %}
+
+{% block content %}
+    <div class="forms_with_login">
+        <h2>Ask {{ expert.name }}</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="question">Your question:</label>
+            <input type="text" name="question" placeholder="Ask something..." required />
+            <button type="submit">Ask</button>
+        </form>
+
+        {% if question %}
+            <hr />
+            <p><strong>You asked:</strong> {{ question }}</p>
+            <p><strong>Answer:</strong> {{ answer }}</p>
+        {% endif %}
+    </div>
+{% endblock %}
