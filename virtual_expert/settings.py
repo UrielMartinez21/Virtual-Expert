@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     # My apps
     'users.apps.UsersConfig',
     'experts.apps.ExpertsConfig',
-    'docs.apps.DocsConfig',
 ]
 
 MIDDLEWARE = [
