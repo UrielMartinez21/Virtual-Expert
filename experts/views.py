@@ -5,17 +5,17 @@ from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.core.files.storage import default_storage
 
 import os
 import json
-import fitz
-import faiss
-import numpy as np
-from sentence_transformers import SentenceTransformer
-from django.core.files.storage import default_storage
+# import fitz
+# import faiss
+# import numpy as np
+# from sentence_transformers import SentenceTransformer
 from experts import basic_answer_from_context
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+# model = SentenceTransformer('all-MiniLM-L6-v2')
 
 
 @login_required
@@ -80,31 +80,31 @@ def send_data_to_train(request):
         file_path = default_storage.save(f"documents/{slug}{extension}", file)
 
         # === Step 1: Extract text (PDF only for now)
-        full_path = os.path.join(settings.MEDIA_ROOT, file_path)
-        text = ""
+        # full_path = os.path.join(settings.MEDIA_ROOT, file_path)
+        # text = ""
 
-        with fitz.open(full_path) as doc:
-            for page in doc:
-                text += page.get_text()
+        # with fitz.open(full_path) as doc:
+        #     for page in doc:
+        #         text += page.get_text()
 
         # === Step 2: Chunk text
-        chunks = [text[i:i+500] for i in range(0, len(text), 500)]
+        # chunks = [text[i:i+500] for i in range(0, len(text), 500)]
 
         # === Step 3: Embed chunks
-        embeddings = model.encode(chunks)
+        # embeddings = model.encode(chunks)
 
         # === Step 4: Store in FAISS (basic in-memory store for MVP)
-        index = faiss.IndexFlatL2(embeddings.shape[1])
-        index.add(np.array(embeddings))
+        # index = faiss.IndexFlatL2(embeddings.shape[1])
+        # index.add(np.array(embeddings))
 
         # === Step 5: Save index to disk
-        index_path = os.path.join(settings.MEDIA_ROOT, f"indices/{expert.slug}.index")
-        os.makedirs(os.path.dirname(index_path), exist_ok=True)
-        faiss.write_index(index, index_path)
+        # index_path = os.path.join(settings.MEDIA_ROOT, f"indices/{expert.slug}.index")
+        # os.makedirs(os.path.dirname(index_path), exist_ok=True)
+        # faiss.write_index(index, index_path)
 
-        chunks_path = os.path.join(settings.MEDIA_ROOT, f"indices/{expert.slug}_chunks.json")
-        with open(chunks_path, "w", encoding="utf-8") as f:
-            json.dump(chunks, f)
+        # chunks_path = os.path.join(settings.MEDIA_ROOT, f"indices/{expert.slug}_chunks.json")
+        # with open(chunks_path, "w", encoding="utf-8") as f:
+        #     json.dump(chunks, f)
 
         return JsonResponse({'message': 'Virtual expert trained successfully'}, status=201)
     except Exception as e:
@@ -152,14 +152,16 @@ def chat_virtual_expert(request, slug):
         if not os.path.exists(index_path) or not os.path.exists(chunks_path):
             return render(request, "experts/chat_virtual_expert.html", {"expert": expert, "error": "No data available for this expert."})
 
-        index = faiss.read_index(index_path)
-        with open(chunks_path, "r", encoding="utf-8") as f:
-            chunks = json.load(f)
+        # index = faiss.read_index(index_path)
+        # with open(chunks_path, "r", encoding="utf-8") as f:
+        #     chunks = json.load(f)
 
         # Embed the question
-        question_vector = model.encode([question])
-        D, I = index.search(np.array(question_vector), k=5)  # top 5 chunks
-        context = "\n".join([chunks[i] for i in I[0]])
+        # question_vector = model.encode([question])
+        # D, I = index.search(np.array(question_vector), k=5)  # top 5 chunks
+        # context = "\n".join([chunks[i] for i in I[0]])
+
+        context = ''
 
         # Compose prompt (simple for now)
         prompt = f"Context:\n{context}\n\nQuestion: {question}\nAnswer:"
