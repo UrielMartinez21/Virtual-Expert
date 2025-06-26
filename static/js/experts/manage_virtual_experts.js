@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // ===========================| Delete Expert |===========================
     const deleteButtons = document.querySelectorAll(".delete-expert");
 
     deleteButtons.forEach(button => {
@@ -71,5 +72,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+    });
+
+    // ===========================| Edit Expert |===========================
+    const editForm = document.getElementById("edit-expert-form");
+    const editBtns = document.querySelectorAll(".edit-expert-btn");
+
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+        const slug = btn.dataset.slug;
+        const name = btn.dataset.name;
+        const description = btn.dataset.description;
+
+        editForm.elements["slug"].value = slug;
+        editForm.elements["name"].value = name;
+        editForm.elements["description"].value = description;
+        });
+    });
+
+    editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(editForm);
+        const slug = formData.get("slug");
+
+        const response = await fetch(`/experts/update/${slug}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+        },
+        body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+        Swal.fire({ icon: 'success', title: 'Expert updated' }).then(() => window.location.reload());
+        } else {
+        Swal.fire({ icon: 'error', title: 'Update failed', text: result.message || 'Try again' });
+        }
     });
 });

@@ -44,6 +44,20 @@ def create_expert(request):
         return JsonResponse({'message': str(e)}, status=500)
 
 
+@login_required
+@require_http_methods(["POST"])
+def update_expert(request, slug):
+    try:
+        expert = get_object_or_404(Expert, slug=slug, profile=request.user.profile)
+        expert.name = request.POST.get("name")
+        expert.description = request.POST.get("description")
+        expert.slug = expert.name.replace(' ', '-').lower()
+        expert.save()
+        return JsonResponse({"message": "Expert updated"}, status=200)
+    except Exception as e:
+        return JsonResponse({"message": str(e)}, status=500)
+
+
 @csrf_exempt
 @login_required
 @require_http_methods(["DELETE"])

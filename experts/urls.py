@@ -7,6 +7,7 @@ urlpatterns = [
     # to create virtual expert
     path('create/', views.create_expert, name='create_expert'),
     path('delete/<slug:slug_expert>/', views.delete_expert, name='delete_expert'),
+    path('update/<slug:slug>/', views.update_expert, name='update_expert'),
 
     # to train model
     path('train/<slug:slug>/', views.train_virtual_expert, name='train_virtual_expert'),
