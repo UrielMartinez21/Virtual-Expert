@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Expert
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -32,6 +32,12 @@ def send_data_to_expert(request):
         return JsonResponse({'message': 'Virtual expert created successfully'}, status=201)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
+
+
+@login_required
+def train_virtual_expert(request, slug):
+    expert = get_object_or_404(Expert, slug=slug, profile=request.user.profile)
+    return render(request, 'experts/train_virtual_expert.html', {'expert': expert})
 
 
 @csrf_exempt

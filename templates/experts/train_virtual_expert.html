@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Train Expert{% endblock %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data" class="forms_with_login">
+        {% csrf_token %}
+        <h2>Upload Training Document for {{ expert.name }}</h2>
+
+        <label for="document">Select file (PDF, DOCX, etc.)</label>
+        <input type="file" name="document" required />
+
+        <button type="submit">Upload & Train</button>
+    </form>
+{% endblock %}
