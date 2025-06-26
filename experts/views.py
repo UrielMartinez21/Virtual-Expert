@@ -59,12 +59,21 @@ def send_data_to_train(request):
     try:
         slug = request.POST.get("slug")
         expert = get_object_or_404(Expert, slug=slug, profile=request.user.profile)
+
+        # === Delete previous files (PDF, index, chunks)
+        index_path = os.path.join(settings.MEDIA_ROOT, f"indices/{slug}.index")
+        chunks_path = os.path.join(settings.MEDIA_ROOT, f"indices/{slug}_chunks.json")
+        doc_path_pdf = os.path.join(settings.MEDIA_ROOT, f"documents/{slug}.pdf")
+
+        for path in [index_path, chunks_path, doc_path_pdf]:
+            if os.path.exists(path):
+                os.remove(path)
+
         file = request.FILES.get("document")
         if not file:
             return JsonResponse({'message': 'No file provided'}, status=400)
 
         # Save file
-        # file_path = default_storage.save(f"documents/{file.name}", file)
         extension = os.path.splitext(file.name)[1]
         file_path = default_storage.save(f"documents/{slug}{extension}", file)
 
@@ -94,6 +103,7 @@ def send_data_to_train(request):
         chunks_path = os.path.join(settings.MEDIA_ROOT, f"indices/{expert.slug}_chunks.json")
         with open(chunks_path, "w", encoding="utf-8") as f:
             json.dump(chunks, f)
+
         return JsonResponse({'message': 'Virtual expert trained successfully'}, status=201)
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
