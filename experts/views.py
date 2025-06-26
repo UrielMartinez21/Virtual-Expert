@@ -1,17 +1,18 @@
-import json
 from django.shortcuts import get_object_or_404, render
 from .models import Expert
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import os
 from django.conf import settings
-from django.core.files.storage import default_storage
-from sentence_transformers import SentenceTransformer
+
+import os
+import json
 import fitz
 import faiss
 import numpy as np
+from sentence_transformers import SentenceTransformer
+from django.core.files.storage import default_storage
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -21,6 +22,7 @@ def my_virtual_experts(request):
     return render(request, 'experts/my_virtual_experts.html', {'experts': experts})
 
 
+# ===========================| Create virtual experts |===========================
 @login_required
 def create_virtual_expert(request):
     return render(request, 'experts/create_virtual_expert.html')
@@ -44,6 +46,7 @@ def send_data_to_expert(request):
         return JsonResponse({'message': str(e)}, status=500)
 
 
+# ===========================| Train Virtual Expert |===========================
 @login_required
 def train_virtual_expert(request, slug):
     expert = get_object_or_404(Expert, slug=slug, profile=request.user.profile)
@@ -96,6 +99,7 @@ def send_data_to_train(request):
         return JsonResponse({'message': str(e)}, status=500)
 
 
+# ===========================| CRUD |===========================
 @csrf_exempt
 @login_required
 @require_http_methods(["DELETE"])
